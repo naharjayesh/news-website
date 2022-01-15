@@ -18,7 +18,6 @@ xhr.onload = function () {
     if (this.status == 200) {
         let newsObj = JSON.parse(this.responseText);
         let articles = newsObj.articles;
-        console.log(newsObj);
         let newsHtml = "";
         articles.forEach((element, index) => {
             newsHtml += `<div class="accordion-item">
@@ -31,7 +30,7 @@ xhr.onload = function () {
                                 aria-expanded="true"
                                 aria-controls="collapse${index}"
                                 >
-                                ${index}: 
+                                ${index + 1}: 
                                 ${element["title"]}
                                 </button>
                                 </h2>
@@ -42,14 +41,20 @@ xhr.onload = function () {
                             data-bs-parent="#newsAccordion"
                         >
                         <div class="accordion-body">
-                            ${element["content"]}.....<a href = '${element["url"]}', target = '_blank' >Read more here</a>
+                            ${element["content"]}.....<a href = '${
+                element["url"]
+            }', target = '_blank' >Read more here</a>
                         </div>
                         </div>
                     </div>`;
         });
         newsAccordion.innerHTML = newsHtml;
     } else {
-        console.log("Some error occured");
+        newsHtml += `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Sorry!</strong> We're facing some server related error
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>`;
+        newsAccordion.innerHTML = newsHtml;
     }
 };
 
